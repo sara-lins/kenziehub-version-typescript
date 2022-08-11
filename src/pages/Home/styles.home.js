@@ -1,4 +1,14 @@
 import styled from "styled-components";
+import Background from "../../components/Background";
+
+export const styleBackground = styled(Background)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+`;
 
 export const NavBar = styled.div`
   display: flex;
@@ -21,12 +31,16 @@ export const NavBar = styled.div`
   border-bottom: 1px solid var(--grey-2);
 
   button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 50px;
     height: 30px;
 
     border-radius: 5px;
     background-color: var(--grey-2);
     color: var(--grey-0);
+    font-size: 0.75rem;
     cursor: pointer;
 
     &:hover {
@@ -58,7 +72,7 @@ export const Main = styled.main`
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  flex-direction: column;
+  flex-wrap: wrap;
 
   width: 100%;
   height: 100%;
@@ -67,10 +81,33 @@ export const Main = styled.main`
   line-height: 40px;
   color: var(--grey-0);
 
-  p {
+  div:nth-child(1) {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    padding: 15px 60px;
+    justify-content: flex-start;
+    gap: 18px;
+  }
+
+  div:nth-child(2) {
+    display: flex;
+    justify-content: center;
+  }
+
+  div {
+    width: 50%;
+    min-width: 31.25rem;
+
+    svg {
+      font-size: 11rem;
+      color: var(--color-primary);
+      animation: 1.5s rotateIn;
+    }
+  }
+
+  p {
+    width: 80%;
+    animation: 1.5s bounceInRight;
   }
 
   .FhraseMain {

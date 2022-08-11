@@ -1,52 +1,133 @@
-import ContainerGeral from "../../components/Container/containerGeral.jsx";
-import { LinkStyle as Link, ContainerImg } from "./styles.login.js";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import Logo from "../../components/img/Logo.png";
+import {
+  LinkStyle as Link,
+  ContainerImg,
+  ContainerRegister,
+} from "./styles.login.js";
+import { styleBackground as Background } from "./styles.login";
+import { ContainerLogin } from "./styles.login";
+import { ContainerInputPass } from "../../components/Container/styles.container";
+
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import api from "../../service/api";
 
 const Login = ({ schema }) => {
-  const { register, handleSubmit } = useForm({
+  const [myBackground, setMyBackground] = useState("#212529");
+  const [openEye, setOpenEye] = useState(true);
+  const [typeInput, setTypeInput] = useState("password");
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(schema),
   });
 
   const submitForm = (data) => {
-    console.log(data);
+    api
+      .post("/sessions", { ...data })
+      .then((res) => {
+        window.localStorage.clear();
+        window.localStorage.setItem("authToken", res.data.token);
+
+        toast.success("Logado com sucesso!", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          toastId: 1,
+        });
+        navigate(`/dashboard/${res.data.user.id}`);
+      })
+      .catch((err) => {
+        err.response.data.message ===
+          "Incorrect email / password combination" &&
+          toast.error("Email ou senha inválidos", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            toastId: 1,
+          });
+      })
+      .finally();
+  };
+
+  const changeStates = (e) => {
+    e.preventDefault();
+    setOpenEye(!openEye);
+    typeInput === "password" ? setTypeInput("text") : setTypeInput("password");
   };
   return (
-    <>
-      <h1>teste</h1>
-      <ContainerImg className="Container-img">
-        <img src={Logo} alt="Logo" />
-      </ContainerImg>
-      <ContainerGeral>
-        <form onSubmit={handleSubmit(submitForm)}>
-          <div className="Container-inputs">
-            <div className="ContainerTitle-login">
-              <p>Login</p>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Background>
+        <ContainerImg className="Container-img">
+          <img src={Logo} alt="Logo" />
+        </ContainerImg>
+        <ContainerLogin>
+          <form
+            onSubmit={handleSubmit(submitForm)}
+            onClick={() =>
+              myBackground === "#343B41" && setMyBackground("#212529")
+            }
+          >
+            <div className="Container-inputs">
+              <div className="ContainerTitle-login">
+                <p>Login</p>
+              </div>
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                placeholder="Email"
+                {...register("email")}
+              />
+              {errors.email?.message}
+              <label htmlFor="senha">Senha</label>
+              <ContainerInputPass
+                background={myBackground}
+                onClick={() => setMyBackground("#343B41")}
+              >
+                <input
+                  type={typeInput}
+                  id="senha"
+                  placeholder="Senha"
+                  autoComplete="current-password"
+                  {...register("password")}
+                />{" "}
+                <button onClick={changeStates}>
+                  {openEye ? <FaEye /> : <FaEyeSlash />}
+                </button>{" "}
+              </ContainerInputPass>
+              {errors.password?.message}
+              <input type="submit" value="Entrar" />
             </div>
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              placeholder="Email"
-              {...register("email")}
-            />
-            <label htmlFor="senha">Senha</label>
-            <input
-              type="password"
-              id="senha"
-              placeholder="Senha"
-              {...register("senha")}
-            />
-            <input type="submit" value="Entrar" />
-          </div>
-          <div className="Container-Resgister">
-            <p>Ainda não possui cadastro?</p>
-            <Link>Cadastre-se</Link>
-          </div>
-        </form>
-      </ContainerGeral>
-    </>
+            <ContainerRegister>
+              <p>Ainda não possui uma conta?</p>
+              <Link to="/register">Cadastre-se</Link>
+            </ContainerRegister>
+          </form>
+        </ContainerLogin>
+      </Background>
+    </motion.div>
   );
 };
 

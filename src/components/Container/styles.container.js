@@ -6,13 +6,37 @@ export const Div = styled.div`
   align-items: center;
   flex-direction: column;
 
-  max-width: 25rem;
+  width: 25rem;
   min-height: 31.25rem;
   padding: 30px 20px;
   border-radius: 10px;
+  margin: 15px;
 
   color: var(--grey-0);
   background-color: var(--grey-3);
+
+  animation: 1s bounceInLeft;
+
+  .ContainerTitle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 0 15px 0;
+    width: 100%;
+    height: 10rem;
+  }
+
+  .TitleRegister {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  .SubTitleRegister {
+    font-size: 0.75rem;
+    color: var(--grey-1);
+  }
 
   form div {
     display: flex;
@@ -28,7 +52,7 @@ export const Div = styled.div`
     justify-content: space-between;
 
     width: 100%;
-    height: 100%;
+    height: 90%;
 
     .ContainerTitle-login {
       margin-bottom: 10px;
@@ -44,12 +68,21 @@ export const Div = styled.div`
       }
     }
 
+    .MessageError {
+      margin-top: 5px;
+      color: var(--toastify-color-error);
+    }
+
+    .MessageDefault {
+      margin-top: 5px;
+      color: var(--grey-1);
+    }
+
     input {
-      height: 3.75rem;
+      height: 3.5rem;
       border-radius: 5px;
       padding: 5px 8px;
       margin-top: 10px;
-      margin-bottom: 15px;
       font-size: 1rem;
       color: var(--grey-0);
       background-color: var(--grey-3);
@@ -61,8 +94,14 @@ export const Div = styled.div`
         outline-color: transparent;
       }
 
+      ::placeholder {
+        font-size: 0.75rem;
+      }
+
       :last-child {
         padding: 5px 0px;
+        height: 3.75rem;
+
         background-color: var(--color-primary);
         color: var(--grey-0);
         cursor: pointer;
@@ -76,6 +115,10 @@ export const Div = styled.div`
       }
     }
 
+    label {
+      margin-top: 10px;
+    }
+
     .Container-inputs {
       display: flex;
       justify-content: space-between;
@@ -83,12 +126,65 @@ export const Div = styled.div`
       height: 75%;
     }
 
-    .Container-Resgister {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    select {
+      height: 35px;
+      margin-top: 10px;
+      padding: 10px;
 
-      height: 25%;
+      border-radius: 5px;
+      background-color: var(--grey-2);
+      color: var(--grey-0);
+      font-size: 0.9rem;
+
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
     }
+  }
+`;
+
+export const ContainerInputPass = styled.span`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 3.75rem;
+  margin-top: 10px;
+
+  border-radius: 5px;
+  border: 1px solid var(--grey-0);
+  font-size: 1rem;
+  color: var(--grey-0);
+  background-color: ${(props) => `${props.background}`};
+  cursor: text;
+
+  :focus {
+    background-color: var(--grey-2);
+    color: var(--grey-0);
+    outline-color: transparent;
+  }
+
+  #senha {
+    width: 80%;
+    height: 100%;
+    margin: 0;
+
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+  }
+
+  button {
+    display: block;
+    width: 20%;
+    height: 80%;
+    background-color: transparent;
+    outline: 0;
+  }
+
+  svg {
+    font-size: 1.3rem;
+    color: var(--grey-0);
+    cursor: pointer;
   }
 `;

@@ -3,8 +3,6 @@ import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-
     :root {
         --color-primary: #FF427F;
         --color-primary-focus: #FF577F;
