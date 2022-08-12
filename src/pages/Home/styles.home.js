@@ -12,18 +12,20 @@ export const styleBackground = styled(Background)`
 
 export const NavBar = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  padding: 0 100px;
 
   width: 100%;
-  height: 16%;
+  min-height: 20vh;
+  max-height: 20vh;
 
   position: fixed;
   top: 0;
   z-index: 2;
 
-  @media (max-width: 450px) {
-    height: 17%;
+  @media (max-width: 665px) {
+    padding: 0 50px;
   }
 
   color: var(--grey-0);
@@ -51,35 +53,70 @@ export const NavBar = styled.div`
 
 export const Header = styled.header`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 
   width: 100%;
   margin-top: 9.375rem;
-  height: 5rem;
-
-  @media (max-width: 450px) {
-    height: 8rem;
-    margin-top: 9rem;
-  }
+  height: 15rem;
+  padding: 0 100px;
+  top: 0;
 
   border-bottom: 1px solid var(--grey-2);
   color: var(--grey-0);
   font-weight: bold;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+
+    height: 15rem;
+
+    text-align: center;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 550px) {
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 665px) {
+    padding: 0 50px;
+  }
+
+  p {
+  }
 `;
 
 export const Main = styled.main`
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
-  flex-wrap: wrap;
 
   width: 100%;
   height: 100%;
-  margin-top: 50px;
+  margin-top: 3rem;
+  padding: 0 100px;
 
-  line-height: 40px;
   color: var(--grey-0);
+
+  @media (max-width: 1000px) {
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+
+    div {
+      svg {
+        font-size: 22rem;
+      }
+    }
+  }
+
+  @media (max-width: 600px) {
+    padding: 0 50px;
+  }
 
   div:nth-child(1) {
     display: flex;
@@ -87,18 +124,28 @@ export const Main = styled.main`
     align-items: center;
     justify-content: flex-start;
     gap: 18px;
+    line-height: 2rem;
+    margin-bottom: 20px;
   }
 
   div:nth-child(2) {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
+    align-items: center;
+
+    @media (max-width: 320px) {
+      margin-top: 20px;
+
+      svg {
+        margin: 10px;
+        font-size: 10rem;
+      }
+    }
   }
 
   div {
-    width: 50%;
-    min-width: 31.25rem;
-
     svg {
+      width: 20rem;
       font-size: 11rem;
       color: var(--color-primary);
       animation: 1.5s rotateIn;
@@ -106,7 +153,7 @@ export const Main = styled.main`
   }
 
   p {
-    width: 80%;
+    width: 100%;
     animation: 1.5s bounceInRight;
   }
 

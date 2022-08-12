@@ -64,7 +64,7 @@ const Register = ({ schema }) => {
           <img src={Logo} alt="" />
           <Link to="/login">Voltar</Link>
         </ContainerImg>
-        <ContainerGeral>
+        <ContainerGeral height="auto">
           <div className="ContainerTitle">
             <p className="TitleRegister">Crie sua conta</p>
             <p className="SubTitleRegister">Rápido e grátis, vamos nessa</p>

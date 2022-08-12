@@ -6,11 +6,31 @@ export const Div = styled.div`
   align-items: center;
   flex-direction: column;
 
-  width: 25rem;
-  min-height: 31.25rem;
+  width: 25%;
+  min-width: 25rem;
+  min-height: 30rem;
+  height: ${(props) => `${props.height}`};
   padding: 30px 20px;
   border-radius: 10px;
   margin: 15px;
+  overflow-y: scroll;
+
+  @media (max-width: 409px) {
+    min-width: 97%;
+  }
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--grey-2);
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
 
   color: var(--grey-0);
   background-color: var(--grey-3);
@@ -52,7 +72,7 @@ export const Div = styled.div`
     justify-content: space-between;
 
     width: 100%;
-    height: 90%;
+    height: ${(props) => `${props.height}`};
 
     .ContainerTitle-login {
       margin-bottom: 10px;
@@ -69,11 +89,13 @@ export const Div = styled.div`
     }
 
     .MessageError {
+      font-size: 0.9rem;
       margin-top: 5px;
       color: var(--toastify-color-error);
     }
 
     .MessageDefault {
+      font-size: 0.9rem;
       margin-top: 5px;
       color: var(--grey-1);
     }
@@ -100,6 +122,7 @@ export const Div = styled.div`
 
       :last-child {
         padding: 5px 0px;
+        margin-top: 20px;
         height: 3.75rem;
 
         background-color: var(--color-primary);

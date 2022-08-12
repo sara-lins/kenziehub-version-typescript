@@ -82,7 +82,7 @@ const Login = ({ schema }) => {
         <ContainerImg className="Container-img">
           <img src={Logo} alt="Logo" />
         </ContainerImg>
-        <ContainerLogin>
+        <ContainerLogin height={"auto"} className="login">
           <form
             onSubmit={handleSubmit(submitForm)}
             onClick={() =>

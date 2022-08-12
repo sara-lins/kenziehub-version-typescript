@@ -4,7 +4,7 @@ import ContainerGeral from "../../components/Container/containerGeral.jsx";
 import Background from "../../components/Background/index";
 
 export const ContainerLogin = styled(ContainerGeral)`
-  color: red;
+  overflow-y: hidden;
 `;
 
 export const styleBackground = styled(Background)`
@@ -12,6 +12,10 @@ export const styleBackground = styled(Background)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .login {
+    overflow-y: hidden;
+  }
 `;
 
 export const ContainerRegister = styled.div`
@@ -42,8 +46,13 @@ export const ContainerImg = styled.div`
   justify-content: center;
   align-items: center;
 
-  width: 25rem;
+  width: 25%;
+  min-width: 25rem;
   height: 6.25rem;
+
+  @media (max-width: 409px) {
+    min-width: 95%;
+  }
 
   img {
     animation: 1s fadeInDownBig;

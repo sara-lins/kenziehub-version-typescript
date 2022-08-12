@@ -16,6 +16,10 @@ export const ContainerImg = styled.div`
 
   width: 25rem;
   height: 5rem;
+
+  @media (max-width: 409px) {
+    width: 95%;
+  }
 `;
 
 export const StyleLink = styled(Link)`
