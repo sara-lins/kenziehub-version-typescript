@@ -7,8 +7,7 @@ export const schemaLogin = yup.object().shape({
     .required(<p className="MessageError">Email é obrigatório</p>),
   password: yup
     .string()
-    .required(<p className="MessageError">Senha é obrigatória</p>)
-    .min(6, <p className="MessageDefault">No mínimo 6 caracteres</p>),
+    .required(<p className="MessageError">Senha é obrigatória</p>),
 });
 
 export const schemaRegister = yup.object().shape({
@@ -22,9 +21,14 @@ export const schemaRegister = yup.object().shape({
   password: yup
     .string()
     .required(<p className="MessageError">Senha é obrigatória</p>)
-    .min(6, <p className="MessageDefault">No mínimo 6 caracteres</p>),
+    .min(8, <p className="MessageError">No mínimo 8 caracteres</p>)
+    .matches(
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/,
+      "Necessário ter ao menos: uma letra maiúscula e minúscula, um número e um caracter especial"
+    ),
   passwordConfirm: yup
     .string()
+    .required(<p className="MessageError">Necessário confirmar senha</p>)
     .oneOf(
       [yup.ref("password")],
       <p className="MessageError">Confirmação de senha deve ser igual</p>
@@ -35,10 +39,14 @@ export const schemaRegister = yup.object().shape({
     .max(50, <p className="MessageDefault">No máximo 50 caracteres</p>),
   contact: yup
     .string()
+    .required(<p className="MessageError">Contato é obrigatório</p>)
     .min(11, <p className="MessageError">Insira um número válido</p>)
-    .required(<p className="MessageError">Contato é obrigatório</p>),
+    .matches(
+      /[1-9]{2}9[1-9]\d{4}/,
+      "Insira um número com DDD sem parentes e 9 dígitos sem traço"
+    ),
   course_module: yup
     .string()
-    .min(5, <p className="MessageError">Escolha um módulo</p>)
-    .required(<p className="MessageError">Módulo é obrigatório</p>),
+    .required(<p className="MessageError">Módulo é obrigatório</p>)
+    .min(5, <p className="MessageError">Escolha um módulo</p>),
 });

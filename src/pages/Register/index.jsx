@@ -15,6 +15,7 @@ import api from "../../service/api";
 
 const Register = ({ schema }) => {
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -24,6 +25,8 @@ const Register = ({ schema }) => {
   });
 
   const submitRegister = (data) => {
+    console.log(data);
+
     api
       .post("/users", { ...data })
       .then((res) => {
@@ -37,20 +40,21 @@ const Register = ({ schema }) => {
           progress: undefined,
           toastId: 1,
         });
+        navigate("/login");
       })
-      .catch(() => {
-        toast.error("Ops! algo deu errado, tente novamente!", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          toastId: 1,
-        });
+      .catch((err) => {
+        err.response.data.message === "Email already exists" &&
+          toast.error("Ops! Esse email já possui cadastro", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            toastId: 1,
+          });
       });
-    navigate("/login");
   };
   return (
     <motion.div
@@ -93,7 +97,12 @@ const Register = ({ schema }) => {
               placeholder="Digite aqui sua senha*"
               {...register("password")}
             />
-            {errors.password?.message}
+            {errors.password?.message ===
+            "Necessário ter ao menos: uma letra maiúscula e minúscula, um número e um caracter especial" ? (
+              <p className="MessageDefault">{errors.password?.message}</p>
+            ) : (
+              errors.password?.message
+            )}
             <label htmlFor="passwordConfirm">Confirmar senha</label>
             <input
               type="password"
@@ -117,7 +126,12 @@ const Register = ({ schema }) => {
               placeholder="(00) 00000-0000*"
               {...register("contact")}
             />
-            {errors.contact?.message}
+            {errors.contact?.message ===
+            "Insira um número com DDD sem parentes e 9 dígitos sem traço" ? (
+              <p className="MessageDefault">{errors.contact?.message}</p>
+            ) : (
+              errors.contact?.message
+            )}
             <label htmlFor="module">Módulo</label>
             <select id="module" {...register("course_module")}>
               <option value="">Selecione um módulo*</option>
