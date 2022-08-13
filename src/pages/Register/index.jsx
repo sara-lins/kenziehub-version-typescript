@@ -25,8 +25,6 @@ const Register = ({ schema }) => {
   });
 
   const submitRegister = (data) => {
-    console.log(data);
-
     api
       .post("/users", { ...data })
       .then((res) => {
@@ -43,17 +41,27 @@ const Register = ({ schema }) => {
         navigate("/login");
       })
       .catch((err) => {
-        err.response.data.message === "Email already exists" &&
-          toast.error("Ops! Esse email já possui cadastro", {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            toastId: 1,
-          });
+        err.response.data.message === "Email already exists"
+          ? toast.error("Ops! Esse email já possui cadastro", {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              toastId: 1,
+            })
+          : toast.error("Ops! Houve algo de errado, tente novamente!", {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              toastId: 1,
+            });
       });
   };
   return (
