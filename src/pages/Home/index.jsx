@@ -3,47 +3,15 @@ import { FaCodeBranch } from "react-icons/fa";
 
 import { NavBar, Header, Main } from "./styles.home";
 import { styleBackground as Background } from "./styles.home.js";
-import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import api from "../../service/api";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
+import CardTech from "../../components/CardTech/index";
 
 const Home = () => {
-  const { user_id } = useParams();
-  const [name, setName] = useState("");
-  const [module, setModule] = useState("");
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const { module, loading, editName, logout, user } = useContext(UserContext);
 
-  function editName() {
-    let newString = "";
-    for (let i = 0; i < name.length; i++) {
-      if (name[i - 1] === " " || i === 0) {
-        newString += name[i].toUpperCase();
-      } else {
-        newString += name[i];
-      }
-    }
-    return newString;
-  }
-
-  function logout() {
-    window.localStorage.clear();
-    navigate("/login");
-  }
-
-  useEffect(() => {
-    api
-      .get(`/users/${user_id}`)
-      .then((res) => {
-        setName(res.data.name);
-        setModule(res.data.course_module);
-      })
-      .catch((error) => console.error(error))
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [user_id]);
+  //useEffect
 
   return (
     <motion.div
@@ -67,18 +35,28 @@ const Home = () => {
             <p>{module}</p>
           </Header>
           <Main>
-            <div>
-              <p className="FhraseMain">
-                Que pena! Estamos em desenvolvimento :(
-              </p>
-              <p>
-                Nossa aplicação está em desenvolvimento, em breve teremos
-                novidades.
-              </p>
-            </div>
-            <div>
-              <FaCodeBranch />
-            </div>
+            {!user.length ? (
+              <>
+                <div>
+                  <p className="FhraseMain">
+                    Que pena! Estamos em desenvolvimento :(
+                  </p>
+                  <p>
+                    Nossa aplicação está em desenvolvimento, em breve teremos
+                    novidades.
+                  </p>
+                </div>
+                <div>
+                  <FaCodeBranch />
+                </div>
+              </>
+            ) : (
+              <ul>
+                {user.user.techs.map(
+                  (tech) => tech === "techs" && <CardTech tech={tech} />
+                )}
+              </ul>
+            )}
           </Main>
         </Background>
       )}

@@ -5,16 +5,14 @@ import {
   BackgroundRegister as Background,
 } from "./styles.register";
 import ContainerGeral from "../../components/Container/containerGeral";
-
-import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import api from "../../service/api";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext/index";
 
 const Register = ({ schema }) => {
-  const navigate = useNavigate();
+  const { submitRegister } = useContext(UserContext);
 
   const {
     register,
@@ -24,46 +22,6 @@ const Register = ({ schema }) => {
     resolver: yupResolver(schema),
   });
 
-  const submitRegister = (data) => {
-    api
-      .post("/users", { ...data })
-      .then((res) => {
-        toast.success(`Conta ${res.data.name} criada com sucesso!`, {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          toastId: 1,
-        });
-        navigate("/login");
-      })
-      .catch((err) => {
-        err.response.data.message === "Email already exists"
-          ? toast.error("Ops! Esse email já possui cadastro", {
-              position: "top-right",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              toastId: 1,
-            })
-          : toast.error("Ops! Houve algo de errado, tente novamente!", {
-              position: "top-right",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              toastId: 1,
-            });
-      });
-  };
   return (
     <motion.div
       initial={{ opacity: 0 }}

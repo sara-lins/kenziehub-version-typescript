@@ -7,21 +7,19 @@ import {
 import { styleBackground as Background } from "./styles.login";
 import { ContainerLogin } from "./styles.login";
 import { ContainerInputPass } from "../../components/Container/styles.container";
-
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { toast } from "react-toastify";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useState } from "react";
-import api from "../../service/api";
+import { useContext, useState } from "react";
+import { UserContext } from "../../contexts/UserContext/index";
 
 const Login = ({ schema }) => {
   const [myBackground, setMyBackground] = useState("#212529");
-  const [openEye, setOpenEye] = useState(true);
-  const [typeInput, setTypeInput] = useState("password");
-  const navigate = useNavigate();
+  const { openEye, typeInput, submitForm, changeStates } =
+    useContext(UserContext);
+
   const {
     register,
     handleSubmit,
@@ -30,47 +28,6 @@ const Login = ({ schema }) => {
     resolver: yupResolver(schema),
   });
 
-  const submitForm = (data) => {
-    api
-      .post("/sessions", { ...data })
-      .then((res) => {
-        window.localStorage.clear();
-        window.localStorage.setItem("authToken", res.data.token);
-
-        toast.success("Logado com sucesso!", {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          toastId: 1,
-        });
-        navigate(`/dashboard/${res.data.user.id}`);
-      })
-      .catch((err) => {
-        err.response.data.message ===
-          "Incorrect email / password combination" &&
-          toast.error("Email ou senha inválidos", {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            toastId: 1,
-          });
-      })
-      .finally();
-  };
-
-  const changeStates = (e) => {
-    e.preventDefault();
-    setOpenEye(!openEye);
-    typeInput === "password" ? setTypeInput("text") : setTypeInput("password");
-  };
   return (
     <motion.div
       initial={{ opacity: 0 }}
