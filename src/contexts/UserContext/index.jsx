@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 import api from "../../service/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { set } from "react-hook-form";
 
 export const UserContext = createContext({});
 
@@ -19,7 +18,11 @@ const UserProvider = ({ children }) => {
 
   useEffect(() => {
     api
-      .get(`/users/${user_id}`)
+      .get(`/profile`, {
+        headers: {
+          authorization: `Bearer ${window.localStorage.getItem("@TOKEN")}`,
+        },
+      })
       .then((res) => {
         setName(res.data.name);
         setModule(res.data.course_module);
@@ -31,29 +34,13 @@ const UserProvider = ({ children }) => {
       });
   }, [user_id]);
 
-  function editName() {
-    let newString = "";
-    for (let i = 0; i < name.length; i++) {
-      if (name[i - 1] === " " || i === 0) {
-        newString += name[i].toUpperCase();
-      } else {
-        newString += name[i];
-      }
-    }
-    return newString;
-  }
-
-  function logout() {
-    window.localStorage.clear();
-    navigate("/login");
-  }
-
   const submitForm = (data) => {
     api
       .post("/sessions", { ...data })
       .then((res) => {
         window.localStorage.clear();
-        window.localStorage.setItem("authToken", res.data.token);
+        window.localStorage.setItem("@TOKEN", res.data.token);
+        window.localStorage.setItem("@USERID", res.data.user.id);
 
         toast.success("Logado com sucesso!", {
           position: "top-right",
@@ -81,6 +68,12 @@ const UserProvider = ({ children }) => {
             toastId: 1,
           });
       });
+  };
+
+  const changeStates = (e) => {
+    e.preventDefault();
+    setOpenEye(!openEye);
+    typeInput === "password" ? setTypeInput("text") : setTypeInput("password");
   };
 
   const submitRegister = (data) => {
@@ -124,11 +117,22 @@ const UserProvider = ({ children }) => {
       });
   };
 
-  const changeStates = (e) => {
-    e.preventDefault();
-    setOpenEye(!openEye);
-    typeInput === "password" ? setTypeInput("text") : setTypeInput("password");
-  };
+  function editName() {
+    let newString = "";
+    for (let i = 0; i < name.length; i++) {
+      if (name[i - 1] === " " || i === 0) {
+        newString += name[i].toUpperCase();
+      } else {
+        newString += name[i];
+      }
+    }
+    return newString;
+  }
+
+  function logout() {
+    window.localStorage.clear();
+    navigate("/login");
+  }
 
   return (
     <UserContext.Provider
