@@ -1,6 +1,5 @@
 import Logo from "../../components/img/Logo.png";
 import Tech from "../../components/img/tech.png";
-import { FaCodeBranch } from "react-icons/fa";
 import { NavBar, Header, Main } from "./styles.home";
 import { styleBackground as Background } from "./styles.home.js";
 import { motion } from "framer-motion";
@@ -9,7 +8,6 @@ import { UserContext } from "../../contexts/UserContext";
 import CardTech from "../../components/CardTech/index";
 import ContainerGeral from "../../components/Container/containerGeral";
 import HeaderContainer from "../../components/HeaderTechs/index";
-import { Navigate } from "react-router-dom";
 
 const Home = () => {
   const { module, loading, editName, logout, user, changeArrObjectsTechs } =
@@ -40,9 +38,6 @@ const Home = () => {
               <>
                 <div>
                   <p className="FhraseMain">Ops! Tivemos algum problema!</p>
-                </div>
-                <div>
-                  <FaCodeBranch />
                 </div>
               </>
             ) : (
