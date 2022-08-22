@@ -25,7 +25,7 @@ const Home = () => {
         <Background>
           <div className="Loading">Carregando...</div>
         </Background>
-      ) : user ? (
+      ) : (
         <Background>
           <NavBar>
             <img src={Logo} alt="Logo" />
@@ -78,8 +78,6 @@ const Home = () => {
             )}
           </Main>
         </Background>
-      ) : (
-        <Navigate to="/login" replace />
       )}
     </motion.div>
   );
