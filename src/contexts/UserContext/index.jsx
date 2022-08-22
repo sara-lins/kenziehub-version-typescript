@@ -14,7 +14,32 @@ const UserProvider = ({ children }) => {
   const [name, setName] = useState("");
   const [module, setModule] = useState("");
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
+  const [techs, setTechs] = useState([]);
+  const [showTitleTechModalEdit, setShowTitleTechModalEdit] = useState("");
+  const [showStatusTechModalEdit, setShowStatusTechModalEdit] = useState("");
+  const [idTech, setIdTech] = useState("");
+  const [visibilityModalRegisterTech, setVisibilityModalRegisterTech] =
+    useState(false);
+  const [visibilityModalEditTech, setVisibilityModalEditTech] = useState(false);
+  const [userConfirmDeleteTech, setUserConfirmDeleteTech] = useState(false);
+  const [
+    visibilityConfirmDeleteTechModal,
+    setVisibilityConfirmDeleteTechModal,
+  ] = useState(false);
+
+  const toastError = () => {
+    toast.error("Ops! Houve algo de errado, tente novamente!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      toastId: 1,
+    });
+  };
 
   useEffect(() => {
     api
@@ -32,7 +57,7 @@ const UserProvider = ({ children }) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [user_id]);
+  }, [user_id, user]);
 
   const submitForm = (data) => {
     api
@@ -104,20 +129,11 @@ const UserProvider = ({ children }) => {
               progress: undefined,
               toastId: 1,
             })
-          : toast.error("Ops! Houve algo de errado, tente novamente!", {
-              position: "top-right",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              toastId: 1,
-            });
+          : toastError();
       });
   };
 
-  function editName() {
+  const editName = () => {
     let newString = "";
     for (let i = 0; i < name.length; i++) {
       if (name[i - 1] === " " || i === 0) {
@@ -127,12 +143,136 @@ const UserProvider = ({ children }) => {
       }
     }
     return newString;
-  }
+  };
 
-  function logout() {
+  const logout = () => {
     window.localStorage.clear();
     navigate("/login");
-  }
+  };
+
+  const submitRegisterTech = (data) => {
+    console.log(data);
+    api
+      .post(
+        "/users/techs",
+        { ...data },
+        {
+          headers: {
+            authorization: `Bearer ${window.localStorage.getItem("@TOKEN")}`,
+          },
+        }
+      )
+      .then((res) => {
+        toast.success("Tecnologia cadastrada com sucesso!", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          toastId: 1,
+        });
+        setVisibilityModalRegisterTech(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        err.response.data.message ===
+          "User Already have this technology created you can only update it" &&
+          toast.error("Tecnologia já está cadastrada!", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            toastId: 1,
+          });
+      });
+  };
+
+  const changeArrObjectsTechs = () => {
+    let newArrObjectsTech = [];
+    for (let i = user.techs.length - 1; i >= 0; i--) {
+      newArrObjectsTech.push(user.techs[i]);
+    }
+    return newArrObjectsTech;
+  };
+
+  const submitEditTech = (data) => {
+    console.log(data);
+    api
+      .put(
+        `/users/techs/${idTech}`,
+        { ...data },
+        {
+          headers: {
+            authorization: `Bearer ${window.localStorage.getItem("@TOKEN")}`,
+          },
+        }
+      )
+      .then((res) => {
+        toast.success(`Status atualizado com sucesso!`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          toastId: 1,
+        });
+        setVisibilityModalEditTech(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        toastError();
+      });
+  };
+
+  const deleteTech = () => {
+    api
+      .delete(`/users/techs/${idTech}`, {
+        headers: {
+          authorization: `Bearer ${window.localStorage.getItem("@TOKEN")}`,
+        },
+      })
+      .then((res) => {
+        toast.success(`Tech deletada com sucesso!`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          toastId: 1,
+        });
+        setVisibilityConfirmDeleteTechModal(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        toastError();
+      });
+  };
+
+  const confirmDeleteTech = () => {
+    setUserConfirmDeleteTech(true);
+    userConfirmDeleteTech && deleteTech();
+  };
+
+  const showTechModal = (titleTech, status, idTech) => {
+    setShowTitleTechModalEdit(titleTech);
+    setShowStatusTechModalEdit(status);
+    setIdTech(idTech);
+    setVisibilityModalEditTech(true);
+  };
+
+  const showTConfirmDelete = () => {
+    setVisibilityConfirmDeleteTechModal(true);
+    setVisibilityModalEditTech(false);
+  };
 
   return (
     <UserContext.Provider
@@ -156,6 +296,23 @@ const UserProvider = ({ children }) => {
         submitForm,
         submitRegister,
         changeStates,
+        visibilityModalRegisterTech,
+        setVisibilityModalRegisterTech,
+        submitRegisterTech,
+        changeArrObjectsTechs,
+        techs,
+        setTechs,
+        visibilityModalEditTech,
+        setVisibilityModalEditTech,
+        submitEditTech,
+        deleteTech,
+        showTitleTechModalEdit,
+        showTechModal,
+        showStatusTechModalEdit,
+        visibilityConfirmDeleteTechModal,
+        showTConfirmDelete,
+        confirmDeleteTech,
+        setVisibilityConfirmDeleteTechModal,
       }}
     >
       {children}

@@ -50,3 +50,18 @@ export const schemaRegister = yup.object().shape({
     .required(<p className="MessageError">Módulo é obrigatório</p>)
     .min(5, <p className="MessageError">Escolha um módulo</p>),
 });
+
+export const schemaRegisterTech = yup.object().shape({
+  title: yup
+    .string()
+    .required(<p className="MessageError">Tecnologia é obrigatória</p>),
+  status: yup
+    .string()
+    .required(<p className="MessageError">Status é obrigatório</p>),
+});
+
+export const schemaEditTech = yup.object().shape({
+  status: yup
+    .string()
+    .required(<p className="MessageError">Status é obrigatório</p>),
+});

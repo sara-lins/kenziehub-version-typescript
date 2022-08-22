@@ -6,27 +6,18 @@ export const styleBackground = styled(Background)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
 `;
 
 export const NavBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 100px;
-
   width: 100%;
-  min-height: 20vh;
-  max-height: 20vh;
-
+  height: 100px;
+  padding: 0 10%;
   position: fixed;
   top: 0;
-  z-index: 2;
-
-  @media (max-width: 665px) {
-    padding: 0 50px;
-  }
+  z-index: 1;
 
   color: var(--grey-0);
   background-color: var(--grey-4);
@@ -57,89 +48,143 @@ export const Header = styled.header`
   align-items: center;
 
   width: 100%;
-  margin-top: 9.375rem;
-  height: 15rem;
-  padding: 0 100px;
-  top: 0;
+  height: 90px;
+  padding: 0 10%;
+  position: absolute;
+  top: 13%;
 
   border-bottom: 1px solid var(--grey-2);
   color: var(--grey-0);
   font-weight: bold;
 
-  @media (max-width: 500px) {
+  @media (max-width: 550px) {
     flex-direction: column;
     justify-content: center;
+    align-items: flex-start;
     flex-wrap: wrap;
     gap: 25px;
 
-    height: 15rem;
+    padding: 10px 10%;
+    height: 110px;
+    top: 18%;
 
     text-align: center;
     font-size: 0.9rem;
-  }
 
-  @media (max-width: 550px) {
-    font-size: 0.9rem;
-  }
-
-  @media (max-width: 665px) {
-    padding: 0 50px;
-  }
-
-  p {
+    .TitleName {
+      font-size: 1rem;
+    }
   }
 `;
 
 export const Main = styled.main`
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   width: 100%;
-  height: 100%;
-  margin-top: 3rem;
-  padding: 0 100px;
+  margin-top: 1rem;
+  position: absolute;
+  top: 25%;
 
   color: var(--grey-0);
 
-  @media (max-width: 1000px) {
-    justify-content: center;
-    flex-wrap: wrap;
-    text-align: center;
-
-    div {
-      svg {
-        font-size: 22rem;
-      }
-    }
+  @media (max-width: 550px) {
+    top: 35%;
   }
 
-  @media (max-width: 600px) {
-    padding: 0 50px;
+  .ContainerWithoutTechs {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    padding-top: 30px;
+
+    img {
+      width: 20rem;
+      height: 20rem;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%,
+      100% {
+        transform: translatey(0);
+      }
+      50% {
+        transform: translatey(-20px);
+      }
+    }
+
+    p,
+    .ContainerImgAnimation {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      text-align: center;
+      padding: 0 10px;
+    }
   }
 
   div:nth-child(1) {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: flex-start;
-    gap: 18px;
-    line-height: 2rem;
-    margin-bottom: 20px;
+    width: 80%;
+    height: 70px;
+
+    p {
+      width: 50%;
+      text-align: start;
+      font-size: 1.5rem;
+    }
+
+    @media (max-width: 409px) {
+      min-width: 90%;
+
+      p {
+        font-size: 1.1rem;
+      }
+    }
+
+    button {
+      width: 3rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 30px;
+
+      border-radius: 5px;
+      background-color: var(--grey-2);
+      color: var(--grey-0);
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--grey-1);
+      }
+    }
+  }
+
+  .Containertechs {
+    overflow-y: scroll;
   }
 
   div:nth-child(2) {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
+    border-radius: 5px;
+    width: 80%;
+    min-height: 420px;
+    animation: none;
 
-    @media (max-width: 320px) {
-      margin-top: 20px;
-
-      svg {
-        margin: 10px;
-        font-size: 10rem;
-      }
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
   }
 
@@ -148,13 +193,8 @@ export const Main = styled.main`
       width: 20rem;
       font-size: 11rem;
       color: var(--color-primary);
-      animation: 1.5s rotateIn;
+      /* animation: 1.5s rotateIn; */
     }
-  }
-
-  p {
-    width: 100%;
-    animation: 1.5s bounceInRight;
   }
 
   .FhraseMain {

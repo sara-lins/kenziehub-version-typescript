@@ -14,6 +14,12 @@ export const Div = styled.div`
   border-radius: 10px;
   margin: 15px;
   overflow-y: scroll;
+  overflow-x: none;
+
+  color: var(--grey-0);
+  background-color: var(--grey-3);
+
+  animation: 1s bounceInLeft;
 
   @media (max-width: 409px) {
     min-width: 97%;
@@ -32,10 +38,10 @@ export const Div = styled.div`
     background-color: transparent;
   }
 
-  color: var(--grey-0);
-  background-color: var(--grey-3);
-
-  animation: 1s bounceInLeft;
+  ul {
+    width: 100%;
+    height: auto;
+  }
 
   .ContainerTitle {
     display: flex;
