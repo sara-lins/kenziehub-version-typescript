@@ -3,7 +3,7 @@ import * as yup from "yup";
 export const schemaLogin = yup.object().shape({
   email: yup
     .string()
-    .email()
+    .email(<p className="MessageError">Necessário email válido</p>)
     .required(<p className="MessageError">Email é obrigatório</p>),
   password: yup
     .string()
