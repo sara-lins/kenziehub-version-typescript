@@ -6,6 +6,11 @@ export const styleBackground = styled(Background)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .FhraseMain {
+    font-weight: bold;
+    color: var(--grey-0);
+  }
 `;
 
 export const NavBar = styled.div`
@@ -195,9 +200,5 @@ export const Main = styled.main`
       color: var(--color-primary);
       /* animation: 1.5s rotateIn; */
     }
-  }
-
-  .FhraseMain {
-    font-weight: bold;
   }
 `;

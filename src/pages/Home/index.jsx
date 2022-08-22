@@ -25,23 +25,23 @@ const Home = () => {
         </Background>
       ) : (
         <Background>
-          <NavBar>
-            <img src={Logo} alt="Logo" />
-            <button onClick={() => logout()}>Sair</button>
-          </NavBar>
-          <Header>
-            <p className="TitleName">Olá, {editName()}!</p>
-            <p>{module}</p>
-          </Header>
-          <Main>
-            {!user ? (
-              <>
-                <div>
-                  <p className="FhraseMain">Ops! Tivemos algum problema!</p>
-                </div>
-              </>
-            ) : (
-              <>
+          {!user ? (
+            <>
+              <div>
+                <p className="FhraseMain">Ops! Tivemos algum problema!</p>
+              </div>
+            </>
+          ) : (
+            <>
+              <NavBar>
+                <img src={Logo} alt="Logo" />
+                <button onClick={() => logout()}>Sair</button>
+              </NavBar>
+              <Header>
+                <p className="TitleName">Olá, {editName()}!</p>
+                <p>{module}</p>
+              </Header>
+              <Main>
                 {!user.techs.length ? (
                   <>
                     <HeaderContainer className={"headerContainer"} />
@@ -69,9 +69,9 @@ const Home = () => {
                     </ContainerGeral>
                   </>
                 )}
-              </>
-            )}
-          </Main>
+              </Main>
+            </>
+          )}
         </Background>
       )}
     </motion.div>

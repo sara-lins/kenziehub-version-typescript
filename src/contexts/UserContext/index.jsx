@@ -59,8 +59,8 @@ const UserProvider = ({ children }) => {
       });
   }, [user_id, user]);
 
-  const submitForm = (data) => {
-    api
+  const submitForm = async (data) => {
+    await api
       .post("/sessions", { ...data })
       .then((res) => {
         window.localStorage.clear();
