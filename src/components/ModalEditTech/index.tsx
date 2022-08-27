@@ -7,14 +7,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaEditTech } from "../../validator/schema";
 import { MdOutlineClose } from "react-icons/md";
 
-Modal.setAppElement(document.getElementById("root"));
+Modal.setAppElement(document.getElementById("root")!);
+
+interface IDataSubmitFormRegister {
+  title: string;
+  status: string;
+}
 
 const ModalEditTech = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<IDataSubmitFormRegister>({
     resolver: yupResolver(schemaEditTech),
   });
 
@@ -27,7 +32,7 @@ const ModalEditTech = () => {
     showTConfirmDelete,
   } = useContext(UserContext);
 
-  const styleModal = {
+  const styleModal: Modal.Styles = {
     overlay: {
       position: "fixed",
       display: "flex",
@@ -40,7 +45,7 @@ const ModalEditTech = () => {
       backgroundColor: "#0000007d",
     },
     content: {
-      position: "none",
+      /* position: "none", */
       inset: "0",
       width: "25rem",
       height: "30rem",
@@ -62,7 +67,7 @@ const ModalEditTech = () => {
       isOpen={visibilityModalEditTech}
       onRequestClose={() => setVisibilityModalEditTech(false)}
       style={styleModal}
-      parentSelector={() => document.querySelector("#root")}
+      parentSelector={() => document.querySelector("#root")!} //document.body
     >
       <HeaderContainer>
         <p>Configurações da Tecnologia</p>
@@ -70,7 +75,7 @@ const ModalEditTech = () => {
           <MdOutlineClose />
         </button>
       </HeaderContainer>
-      <FormRegisterTech height={"90%"} onSubmit={handleSubmit(submitEditTech)}>
+      <FormRegisterTech height="90%" onSubmit={handleSubmit(submitEditTech)}>
         <label htmlFor="title">Tecnologia</label>
         <input
           disabled
@@ -92,7 +97,9 @@ const ModalEditTech = () => {
           <option value="Intermediário">Intermediário</option>
           <option value="Avançado">Avançado</option>
         </select>
-        {errors.status?.message}
+        {errors.status && (
+          <p className="MessageError">{errors.status?.message}</p>
+        )}
         <span>
           <button type="submit" className="ButtonEditTech">
             Editar

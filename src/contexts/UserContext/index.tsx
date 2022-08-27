@@ -1,12 +1,96 @@
-import { createContext } from "react";
+import { createContext, ReactNode } from "react";
 import { toast } from "react-toastify";
 import api from "../../service/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { FieldValue, FieldValues } from "react-hook-form";
 
-export const UserContext = createContext({});
+interface IDataRegisterTech {
+  title?: string;
+  status: string;
+}
 
-const UserProvider = ({ children }) => {
+interface IDataProduct {
+  title: string;
+  status: string;
+  id: string;
+}
+
+export interface IDataSubmitFormLogin {
+  email: string;
+  password: string;
+}
+
+interface IDataSubmitFormRegister {
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  bio: string;
+  contact: number;
+  course_module: string;
+}
+
+interface IUserProviderProps {
+  children: ReactNode;
+}
+
+interface IUSer {
+  id: string;
+  name: string;
+  email: string;
+  course_module?: string;
+  bio?: string;
+  contact?: string;
+  techs: ITechs[];
+  works?: any[];
+  created_at?: string;
+  updated_at?: string;
+  avatar_url?: null;
+}
+
+interface ITechs {
+  id?: string;
+  title: string;
+  status: string;
+}
+
+interface IUserProviderListData {
+  visibilityConfirmDeleteTechModal: boolean;
+  visibilityModalEditTech: boolean;
+  visibilityModalRegisterTech: boolean;
+  showTitleTechModalEdit: string;
+  showStatusTechModalEdit: string;
+  module: string;
+  loading: boolean;
+  user: IUSer | { techs: [] };
+  openEye: boolean;
+  typeInput: string;
+  showTechModal: (title: string, status: string, id: string) => void;
+  submitEditTech: (data: IDataRegisterTech) => void;
+  submitRegisterTech: (data: IDataRegisterTech) => void;
+  submitForm: (data: IDataSubmitFormLogin) => void;
+  submitRegister: (data: FieldValue<IDataSubmitFormRegister>) => void;
+  deleteTech: () => void;
+  editName: () => string;
+  logout: () => void;
+  changeStates: (e: MouseEvent) => void;
+  showTConfirmDelete: () => void;
+  setVisibilityModalRegisterTech: (
+    visibilityModalRegisterTech: boolean
+  ) => void;
+  setVisibilityConfirmDeleteTechModal: (
+    visibilityConfirmDeleteTechModal: boolean
+  ) => void;
+  setVisibilityModalEditTech: (visibilityModalEditTech: boolean) => void;
+  changeArrObjectsTechs: () => any[];
+}
+
+export const UserContext = createContext<IUserProviderListData>(
+  {} as IUserProviderListData
+);
+
+const UserProvider = ({ children }: IUserProviderProps) => {
   const navigate = useNavigate();
   const [openEye, setOpenEye] = useState(true);
   const [typeInput, setTypeInput] = useState("password");
@@ -14,15 +98,17 @@ const UserProvider = ({ children }) => {
   const [name, setName] = useState("");
   const [module, setModule] = useState("");
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
-  const [techs, setTechs] = useState([]);
+  const [user, setUser] = useState<IUSer>({} as IUSer); //null inicial
+  /* const [techs, setTechs] = useState([]); */
   const [showTitleTechModalEdit, setShowTitleTechModalEdit] = useState("");
   const [showStatusTechModalEdit, setShowStatusTechModalEdit] = useState("");
   const [idTech, setIdTech] = useState("");
-  const [visibilityModalRegisterTech, setVisibilityModalRegisterTech] =
-    useState(false);
+  const [
+    visibilityModalRegisterTech,
+    setVisibilityModalRegisterTech,
+  ] = useState(false);
   const [visibilityModalEditTech, setVisibilityModalEditTech] = useState(false);
-  const [userConfirmDeleteTech, setUserConfirmDeleteTech] = useState(false);
+  /*   const [userConfirmDeleteTech, setUserConfirmDeleteTech] = useState(false); */
   const [
     visibilityConfirmDeleteTechModal,
     setVisibilityConfirmDeleteTechModal,
@@ -59,7 +145,7 @@ const UserProvider = ({ children }) => {
       });
   }, [user_id, user]);
 
-  const submitForm = async (data) => {
+  const submitForm = async (data: IDataSubmitFormLogin) => {
     await api
       .post("/sessions", { ...data })
       .then((res) => {
@@ -95,15 +181,15 @@ const UserProvider = ({ children }) => {
       });
   };
 
-  const changeStates = (e) => {
+  const changeStates = (e: Event) => {
     e.preventDefault();
     setOpenEye(!openEye);
     typeInput === "password" ? setTypeInput("text") : setTypeInput("password");
   };
 
-  const submitRegister = (data) => {
+  const submitRegister = (data: FieldValue<IDataSubmitFormRegister>) => {
     api
-      .post("/users", { ...data })
+      .post("/users", data)
       .then((res) => {
         toast.success(`Conta ${res.data.name} criada com sucesso!`, {
           position: "top-right",
@@ -150,7 +236,7 @@ const UserProvider = ({ children }) => {
     navigate("/login");
   };
 
-  const submitRegisterTech = (data) => {
+  const submitRegisterTech = (data: IDataRegisterTech) => {
     console.log(data);
     api
       .post(
@@ -193,14 +279,15 @@ const UserProvider = ({ children }) => {
   };
 
   const changeArrObjectsTechs = () => {
-    let newArrObjectsTech = [];
-    for (let i = user.techs.length - 1; i >= 0; i--) {
-      newArrObjectsTech.push(user.techs[i]);
+    let newArrObjectsTech: any[] = [];
+    const arr = user.techs;
+    for (let i = arr.length - 1; i >= 0; i--) {
+      newArrObjectsTech.push(arr[i]);
     }
     return newArrObjectsTech;
   };
 
-  const submitEditTech = (data) => {
+  const submitEditTech = (data: IDataRegisterTech) => {
     console.log(data);
     api
       .put(
@@ -257,15 +344,15 @@ const UserProvider = ({ children }) => {
       });
   };
 
-  const confirmDeleteTech = () => {
+  /*  const confirmDeleteTech = () => {
     setUserConfirmDeleteTech(true);
     userConfirmDeleteTech && deleteTech();
-  };
+  }; */
 
-  const showTechModal = (titleTech, status, idTech) => {
-    setShowTitleTechModalEdit(titleTech);
+  const showTechModal = (title: string, status: string, id: string) => {
+    setShowTitleTechModalEdit(title);
     setShowStatusTechModalEdit(status);
-    setIdTech(idTech);
+    setIdTech(id);
     setVisibilityModalEditTech(true);
   };
 
@@ -277,7 +364,39 @@ const UserProvider = ({ children }) => {
   return (
     <UserContext.Provider
       value={{
-        navigate,
+        changeArrObjectsTechs,
+        changeStates,
+        deleteTech,
+        editName,
+        loading,
+        logout,
+        module,
+        openEye,
+        setVisibilityConfirmDeleteTechModal,
+        setVisibilityModalEditTech,
+        setVisibilityModalRegisterTech,
+        showStatusTechModalEdit,
+        showTConfirmDelete,
+        showTechModal,
+        showTitleTechModalEdit,
+        submitEditTech,
+        submitForm,
+        submitRegister,
+        submitRegisterTech,
+        typeInput,
+        user,
+        visibilityConfirmDeleteTechModal,
+        visibilityModalEditTech,
+        visibilityModalRegisterTech,
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  );
+};
+
+export default UserProvider;
+/* navigate,
         openEye,
         setOpenEye,
         typeInput,
@@ -312,12 +431,4 @@ const UserProvider = ({ children }) => {
         visibilityConfirmDeleteTechModal,
         showTConfirmDelete,
         confirmDeleteTech,
-        setVisibilityConfirmDeleteTechModal,
-      }}
-    >
-      {children}
-    </UserContext.Provider>
-  );
-};
-
-export default UserProvider;
+        setVisibilityConfirmDeleteTechModal, */

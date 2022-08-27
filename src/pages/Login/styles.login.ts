@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import ContainerGeral from "../../components/Container/containerGeral.jsx";
+import ContainerGeral from "../../components/Container/containerGeral.js";
 import Background from "../../components/Background/index";
 
 export const ContainerLogin = styled(ContainerGeral)`

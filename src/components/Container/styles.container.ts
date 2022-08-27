@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const Div = styled.div`
+interface IDivProps {
+  height: string;
+}
+
+export const Div = styled.div<IDivProps>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -172,7 +176,11 @@ export const Div = styled.div`
   }
 `;
 
-export const ContainerInputPass = styled.span`
+interface IContainerInputPassProps {
+  background: string;
+}
+
+export const ContainerInputPass = styled.span<IContainerInputPassProps>`
   display: flex;
   justify-content: space-between;
   align-items: center;

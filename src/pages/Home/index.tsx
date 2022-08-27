@@ -10,8 +10,14 @@ import ContainerGeral from "../../components/Container/containerGeral";
 import HeaderContainer from "../../components/HeaderTechs/index";
 
 const Home = () => {
-  const { module, loading, editName, logout, user, changeArrObjectsTechs } =
-    useContext(UserContext);
+  const {
+    module,
+    loading,
+    editName,
+    logout,
+    user,
+    changeArrObjectsTechs,
+  } = useContext(UserContext);
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -42,9 +48,9 @@ const Home = () => {
                 <p>{module}</p>
               </Header>
               <Main>
-                {!user.techs.length ? (
+                {!user?.techs.length ? (
                   <>
-                    <HeaderContainer className={"headerContainer"} />
+                    <HeaderContainer className="headerContainer" />
                     <span className="ContainerWithoutTechs">
                       <p className="FhraseMain">
                         Você ainda não possui tecnologias cadastradas

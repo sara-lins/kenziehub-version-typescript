@@ -4,7 +4,7 @@ import { UserContext } from "../../contexts/UserContext";
 
 import { ContainerModalConfirmDelete } from "../ModalRegisterTech/style";
 
-Modal.setAppElement(document.getElementById("root"));
+Modal.setAppElement(document.getElementById("root")!);
 
 const ModalConfirmDelete = () => {
   const {
@@ -12,7 +12,7 @@ const ModalConfirmDelete = () => {
     visibilityConfirmDeleteTechModal,
     setVisibilityConfirmDeleteTechModal,
   } = useContext(UserContext);
-  const styleModal = {
+  const styleModal: Modal.Styles = {
     overlay: {
       position: "fixed",
       display: "flex",
@@ -25,7 +25,7 @@ const ModalConfirmDelete = () => {
       backgroundColor: "#0000007d",
     },
     content: {
-      position: "none",
+      /* position: "", */
       inset: "0",
       width: "20rem",
       height: "20rem",
@@ -41,12 +41,13 @@ const ModalConfirmDelete = () => {
       boxShadow: "3px 3px 5px #000000",
     },
   };
+
   return (
     <Modal
       isOpen={visibilityConfirmDeleteTechModal}
       onRequestClose={() => setVisibilityConfirmDeleteTechModal(false)}
       style={styleModal}
-      parentSelector={() => document.querySelector("#root")}
+      parentSelector={() => document.body}
     >
       <ContainerModalConfirmDelete>
         <div>

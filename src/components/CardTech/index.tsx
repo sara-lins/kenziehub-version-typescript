@@ -3,7 +3,17 @@ import { FiEdit } from "react-icons/fi";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 
-const CardTech = ({ tech }) => {
+interface ICardTechProps {
+  tech: {
+    id: string;
+    title: string;
+    status: string;
+    create_at: string;
+    updated_at: string;
+  };
+}
+
+const CardTech = ({ tech }: ICardTechProps) => {
   const { title, status, id } = tech;
   const { showTechModal } = useContext(UserContext);
 

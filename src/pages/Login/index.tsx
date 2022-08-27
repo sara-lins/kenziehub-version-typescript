@@ -14,18 +14,25 @@ import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext/index";
+import { schemaLogin } from "../../validator/schema";
 
-const Login = ({ schema }) => {
+interface IUSerLogin {
+  email: string;
+  password: string;
+}
+
+const Login = () => {
   const [myBackground, setMyBackground] = useState("#212529");
-  const { openEye, typeInput, submitForm, changeStates } =
-    useContext(UserContext);
+  const { openEye, typeInput, submitForm, changeStates } = useContext(
+    UserContext
+  );
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
+  } = useForm<IUSerLogin>({
+    resolver: yupResolver(schemaLogin),
   });
 
   return (
@@ -57,7 +64,9 @@ const Login = ({ schema }) => {
                 placeholder="Email"
                 {...register("email")}
               />
-              {errors.email?.message}
+              {errors.email && (
+                <p className="MessageError">{errors.email?.message}</p>
+              )}
               <label htmlFor="senha">Senha</label>
               <ContainerInputPass
                 background={myBackground}
@@ -70,11 +79,13 @@ const Login = ({ schema }) => {
                   autoComplete="current-password"
                   {...register("password")}
                 />{" "}
-                <button onClick={changeStates}>
+                <button onClick={() => changeStates}>
                   {openEye ? <FaEye /> : <FaEyeSlash />}
                 </button>{" "}
               </ContainerInputPass>
-              {errors.password?.message}
+              {errors.password && (
+                <p className="MessageError">{errors.password?.message}</p>
+              )}
               <input type="submit" value="Entrar" />
             </div>
             <ContainerRegister>

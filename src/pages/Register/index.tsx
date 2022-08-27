@@ -10,16 +10,27 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { motion } from "framer-motion";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext/index";
+import { schemaRegister } from "../../validator/schema";
 
-const Register = ({ schema }) => {
+interface IDataSubmitFormRegister {
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  bio: string;
+  contact: string;
+  course_module: string;
+}
+
+const Register = () => {
   const { submitRegister } = useContext(UserContext);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
+  } = useForm<IDataSubmitFormRegister>({
+    resolver: yupResolver(schemaRegister),
   });
 
   return (
@@ -47,7 +58,9 @@ const Register = ({ schema }) => {
               placeholder="Digite aqui seu nome*"
               {...register("name")}
             />
-            {errors.name?.message}
+            {errors.name && (
+              <p className="MessageError">{errors.name?.message}</p>
+            )}
             <label htmlFor="email">Email</label>
             <input
               type="email"
@@ -55,7 +68,9 @@ const Register = ({ schema }) => {
               placeholder="Digite aqui seu email*"
               {...register("email")}
             />
-            {errors.email?.message}
+            {errors.email && (
+              <p className="MessageError">{errors.email?.message}</p>
+            )}
             <label htmlFor="password">Senha</label>
             <input
               type="password"
@@ -67,7 +82,7 @@ const Register = ({ schema }) => {
             "Necessário ter ao menos: uma letra maiúscula e minúscula, um número e um caracter especial" ? (
               <p className="MessageDefault">{errors.password?.message}</p>
             ) : (
-              errors.password?.message
+              <p className="MessageError">{errors.password?.message}</p>
             )}
             <label htmlFor="passwordConfirm">Confirmar senha</label>
             <input
@@ -76,7 +91,9 @@ const Register = ({ schema }) => {
               placeholder="Digite novamente sua senha*"
               {...register("passwordConfirm")}
             />
-            {errors.passwordConfirm?.message}
+            {errors.passwordConfirm && (
+              <p className="MessageError">{errors.passwordConfirm?.message}</p>
+            )}
             <label htmlFor="bio">Bio</label>
             <input
               type="text"
@@ -84,7 +101,9 @@ const Register = ({ schema }) => {
               placeholder="Fale sobre você*"
               {...register("bio")}
             />
-            {errors.bio?.message}
+            {errors.bio && (
+              <p className="MessageError">{errors.bio?.message}</p>
+            )}
             <label htmlFor="contact">Contato</label>
             <input
               type="tel"
@@ -96,7 +115,7 @@ const Register = ({ schema }) => {
             "Insira um número com DDD sem parentes e 9 dígitos sem traço" ? (
               <p className="MessageDefault">{errors.contact?.message}</p>
             ) : (
-              errors.contact?.message
+              <p className="MessageError">{errors.contact?.message}</p>
             )}
             <label htmlFor="module">Módulo</label>
             <select id="module" {...register("course_module")}>
@@ -120,7 +139,9 @@ const Register = ({ schema }) => {
                 Sexto módulo
               </option>
             </select>
-            {errors.course_module?.message}
+            {errors.course_module && (
+              <p className="MessageError">{errors.course_module?.message}</p>
+            )}
             <input type="submit" value="Cadastrar" />
           </form>
         </ContainerGeral>

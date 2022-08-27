@@ -7,14 +7,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaRegisterTech } from "../../validator/schema";
 import { MdOutlineClose } from "react-icons/md";
 
-Modal.setAppElement(document.getElementById("root"));
+Modal.setAppElement(document.getElementById("root")!);
+
+interface IDataSubmitFormRegister {
+  title: string;
+  status: string;
+}
 
 const ModalRegisterTech = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<IDataSubmitFormRegister>({
     resolver: yupResolver(schemaRegisterTech),
   });
 
@@ -24,7 +29,7 @@ const ModalRegisterTech = () => {
     submitRegisterTech,
   } = useContext(UserContext);
 
-  const styleModal = {
+  const styleModal: Modal.Styles = {
     overlay: {
       position: "fixed",
       display: "flex",
@@ -37,7 +42,7 @@ const ModalRegisterTech = () => {
       backgroundColor: "#0000007d",
     },
     content: {
-      position: "none",
+      /* position: "none", */
       inset: "0",
       width: "25rem",
       height: "25rem",
@@ -59,7 +64,7 @@ const ModalRegisterTech = () => {
       isOpen={visibilityModalRegisterTech}
       onRequestClose={() => setVisibilityModalRegisterTech(false)}
       style={styleModal}
-      parentSelector={() => document.querySelector("#root")}
+      parentSelector={() => document.querySelector("#root")!}
     >
       <HeaderContainer>
         <p>Cadastrar Tecnologia</p>
@@ -68,7 +73,7 @@ const ModalRegisterTech = () => {
         </button>
       </HeaderContainer>
       <FormRegisterTech
-        height={"80%"}
+        height="80%"
         onSubmit={handleSubmit(submitRegisterTech)}
       >
         <label htmlFor="title">Nome</label>
@@ -78,7 +83,9 @@ const ModalRegisterTech = () => {
           placeholder="Ex: ReactJs"
           {...register("title")}
         />
-        {errors.title?.message}
+        {errors.title && (
+          <p className="MessageError">{errors.title?.message}</p>
+        )}
         <label htmlFor="status">Status</label>
         <select id="status" {...register("status")}>
           <option value="">Selecione um status</option>
@@ -86,7 +93,9 @@ const ModalRegisterTech = () => {
           <option value="Intermediário">Intermediário</option>
           <option value="Avançado">Avançado</option>
         </select>
-        {errors.status?.message}
+        {errors.status && (
+          <p className="MessageError">{errors.status?.message}</p>
+        )}
         <button>Cadastrar</button>
       </FormRegisterTech>
     </Modal>

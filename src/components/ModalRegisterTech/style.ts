@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const HeaderContainer = styled.span`
+type IHeaderContainerProps = {
+  height?: string;
+};
+
+export const HeaderContainer = styled.span<IHeaderContainerProps>`
   width: 100%;
   height: 20%;
   display: flex;
@@ -23,7 +27,11 @@ export const HeaderContainer = styled.span`
   }
 `;
 
-export const FormRegisterTech = styled.form`
+type IFormRegisterTechProps = {
+  height?: string;
+};
+
+export const FormRegisterTech = styled.form<IFormRegisterTechProps>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;

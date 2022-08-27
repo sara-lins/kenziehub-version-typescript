@@ -2,7 +2,9 @@ import { Button, DivContainer } from "./style";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 
-const HeaderContainer = ({ className }) => {
+type headerContainerProps = { className: string };
+
+const HeaderContainer = ({ className }: headerContainerProps) => {
   const { setVisibilityModalRegisterTech } = useContext(UserContext);
   return (
     <>
