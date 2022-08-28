@@ -1,19 +1,13 @@
-import { createContext, ReactNode } from "react";
+import React, { createContext, ReactNode } from "react";
 import { toast } from "react-toastify";
 import api from "../../service/api";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { FieldValue, FieldValues } from "react-hook-form";
+import { FieldValue } from "react-hook-form";
 
 interface IDataRegisterTech {
   title?: string;
   status: string;
-}
-
-interface IDataProduct {
-  title: string;
-  status: string;
-  id: string;
 }
 
 export interface IDataSubmitFormLogin {
@@ -94,21 +88,16 @@ const UserProvider = ({ children }: IUserProviderProps) => {
   const navigate = useNavigate();
   const [openEye, setOpenEye] = useState(true);
   const [typeInput, setTypeInput] = useState("password");
-  const { user_id } = useParams();
   const [name, setName] = useState("");
   const [module, setModule] = useState("");
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<IUSer>({} as IUSer); //null inicial
-  /* const [techs, setTechs] = useState([]); */
+  const [user, setUser] = useState<IUSer>({} as IUSer);
   const [showTitleTechModalEdit, setShowTitleTechModalEdit] = useState("");
   const [showStatusTechModalEdit, setShowStatusTechModalEdit] = useState("");
   const [idTech, setIdTech] = useState("");
-  const [
-    visibilityModalRegisterTech,
-    setVisibilityModalRegisterTech,
-  ] = useState(false);
+  const [visibilityModalRegisterTech, setVisibilityModalRegisterTech] =
+    useState(false);
   const [visibilityModalEditTech, setVisibilityModalEditTech] = useState(false);
-  /*   const [userConfirmDeleteTech, setUserConfirmDeleteTech] = useState(false); */
   const [
     visibilityConfirmDeleteTechModal,
     setVisibilityConfirmDeleteTechModal,
@@ -143,11 +132,11 @@ const UserProvider = ({ children }: IUserProviderProps) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [user_id, user]);
+  }, []);
 
   const submitForm = async (data: IDataSubmitFormLogin) => {
     await api
-      .post("/sessions", { ...data })
+      .post("/sessions", data)
       .then((res) => {
         window.localStorage.clear();
         window.localStorage.setItem("@TOKEN", res.data.token);
@@ -237,18 +226,13 @@ const UserProvider = ({ children }: IUserProviderProps) => {
   };
 
   const submitRegisterTech = (data: IDataRegisterTech) => {
-    console.log(data);
     api
-      .post(
-        "/users/techs",
-        { ...data },
-        {
-          headers: {
-            authorization: `Bearer ${window.localStorage.getItem("@TOKEN")}`,
-          },
-        }
-      )
-      .then((res) => {
+      .post("/users/techs", data, {
+        headers: {
+          authorization: `Bearer ${window.localStorage.getItem("@TOKEN")}`,
+        },
+      })
+      .then(() => {
         toast.success("Tecnologia cadastrada com sucesso!", {
           position: "top-right",
           autoClose: 1000,
@@ -260,6 +244,7 @@ const UserProvider = ({ children }: IUserProviderProps) => {
           toastId: 1,
         });
         setVisibilityModalRegisterTech(false);
+        searchUSer();
       })
       .catch((err) => {
         console.error(err);
@@ -288,17 +273,12 @@ const UserProvider = ({ children }: IUserProviderProps) => {
   };
 
   const submitEditTech = (data: IDataRegisterTech) => {
-    console.log(data);
     api
-      .put(
-        `/users/techs/${idTech}`,
-        { ...data },
-        {
-          headers: {
-            authorization: `Bearer ${window.localStorage.getItem("@TOKEN")}`,
-          },
-        }
-      )
+      .put(`/users/techs/${idTech}`, data, {
+        headers: {
+          authorization: `Bearer ${window.localStorage.getItem("@TOKEN")}`,
+        },
+      })
       .then((res) => {
         toast.success(`Status atualizado com sucesso!`, {
           position: "top-right",
@@ -311,6 +291,7 @@ const UserProvider = ({ children }: IUserProviderProps) => {
           toastId: 1,
         });
         setVisibilityModalEditTech(false);
+        searchUSer();
       })
       .catch((err) => {
         console.error(err);
@@ -325,7 +306,7 @@ const UserProvider = ({ children }: IUserProviderProps) => {
           authorization: `Bearer ${window.localStorage.getItem("@TOKEN")}`,
         },
       })
-      .then((res) => {
+      .then(() => {
         toast.success(`Tech deletada com sucesso!`, {
           position: "top-right",
           autoClose: 1000,
@@ -337,6 +318,8 @@ const UserProvider = ({ children }: IUserProviderProps) => {
           toastId: 1,
         });
         setVisibilityConfirmDeleteTechModal(false);
+
+        searchUSer();
       })
       .catch((err) => {
         console.error(err);
@@ -344,10 +327,20 @@ const UserProvider = ({ children }: IUserProviderProps) => {
       });
   };
 
-  /*  const confirmDeleteTech = () => {
-    setUserConfirmDeleteTech(true);
-    userConfirmDeleteTech && deleteTech();
-  }; */
+  const searchUSer = () => {
+    return api
+      .get("/profile", {
+        headers: {
+          authorization: `Bearer ${window.localStorage.getItem("@TOKEN")}`,
+        },
+      })
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   const showTechModal = (title: string, status: string, id: string) => {
     setShowTitleTechModalEdit(title);

@@ -1,16 +1,16 @@
+import React, { useContext } from "react";
+import { motion } from "framer-motion";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import ContainerGeral from "../../components/Container/containerGeral";
+import { UserContext } from "../../contexts/UserContext/index";
+import { schemaRegister } from "../../validator/schema";
 import Logo from "../../components/img/Logo.png";
 import {
   ContainerImg,
   StyleLink as Link,
   BackgroundRegister as Background,
 } from "./styles.register";
-import ContainerGeral from "../../components/Container/containerGeral";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { motion } from "framer-motion";
-import { useContext } from "react";
-import { UserContext } from "../../contexts/UserContext/index";
-import { schemaRegister } from "../../validator/schema";
 
 interface IDataSubmitFormRegister {
   name: string;
@@ -59,7 +59,7 @@ const Register = () => {
               {...register("name")}
             />
             {errors.name && (
-              <p className="MessageError">{errors.name?.message}</p>
+              <p className="MessageError">{errors.name.message}</p>
             )}
             <label htmlFor="email">Email</label>
             <input
@@ -69,7 +69,7 @@ const Register = () => {
               {...register("email")}
             />
             {errors.email && (
-              <p className="MessageError">{errors.email?.message}</p>
+              <p className="MessageError">{errors.email.message}</p>
             )}
             <label htmlFor="password">Senha</label>
             <input
@@ -78,11 +78,14 @@ const Register = () => {
               placeholder="Digite aqui sua senha*"
               {...register("password")}
             />
-            {errors.password?.message ===
-            "Necessário ter ao menos: uma letra maiúscula e minúscula, um número e um caracter especial" ? (
-              <p className="MessageDefault">{errors.password?.message}</p>
+            {errors.password &&
+            errors.password.message ===
+              "Necessário ter ao menos: uma letra maiúscula e minúscula, um número e um caracter especial" ? (
+              <p className="MessageDefault">{errors.password.message}</p>
             ) : (
-              <p className="MessageError">{errors.password?.message}</p>
+              <p className="MessageError">
+                {errors.password && errors.password.message}
+              </p>
             )}
             <label htmlFor="passwordConfirm">Confirmar senha</label>
             <input
@@ -92,7 +95,7 @@ const Register = () => {
               {...register("passwordConfirm")}
             />
             {errors.passwordConfirm && (
-              <p className="MessageError">{errors.passwordConfirm?.message}</p>
+              <p className="MessageError">{errors.passwordConfirm.message}</p>
             )}
             <label htmlFor="bio">Bio</label>
             <input
@@ -101,9 +104,7 @@ const Register = () => {
               placeholder="Fale sobre você*"
               {...register("bio")}
             />
-            {errors.bio && (
-              <p className="MessageError">{errors.bio?.message}</p>
-            )}
+            {errors.bio && <p className="MessageError">{errors.bio.message}</p>}
             <label htmlFor="contact">Contato</label>
             <input
               type="tel"
@@ -111,11 +112,14 @@ const Register = () => {
               placeholder="(00) 00000-0000*"
               {...register("contact")}
             />
-            {errors.contact?.message ===
-            "Insira um número com DDD sem parentes e 9 dígitos sem traço" ? (
-              <p className="MessageDefault">{errors.contact?.message}</p>
+            {errors.contact &&
+            errors.contact.message ===
+              "Insira um número com DDD sem parentes e 9 dígitos sem traço" ? (
+              <p className="MessageDefault">{errors.contact.message}</p>
             ) : (
-              <p className="MessageError">{errors.contact?.message}</p>
+              <p className="MessageError">
+                {errors.contact && errors.contact.message}
+              </p>
             )}
             <label htmlFor="module">Módulo</label>
             <select id="module" {...register("course_module")}>
@@ -140,7 +144,7 @@ const Register = () => {
               </option>
             </select>
             {errors.course_module && (
-              <p className="MessageError">{errors.course_module?.message}</p>
+              <p className="MessageError">{errors.course_module.message}</p>
             )}
             <input type="submit" value="Cadastrar" />
           </form>

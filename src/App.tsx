@@ -1,9 +1,10 @@
+/* eslint-disable no-nested-ternary */
+import { ToastContainer } from "react-toastify";
+import React, { useContext } from "react";
 import GlobalStyle from "./styles/global";
 import RoutesMain from "./routes/index";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ModalRegisterTech from "./components/ModalRegisterTech/index";
-import { useContext } from "react";
 import { UserContext } from "./contexts/UserContext";
 import ModalEditTech from "./components/ModalEditTech";
 import ModalConfirmDelete from "./components/ModalConfirmDelete";

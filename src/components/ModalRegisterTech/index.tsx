@@ -1,12 +1,13 @@
-import { HeaderContainer, FormRegisterTech } from "./style";
-import { useContext } from "react";
-import { UserContext } from "../../contexts/UserContext";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { MdOutlineClose } from "react-icons/md";
+import React, { useContext } from "react";
 import Modal from "react-modal";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { HeaderContainer, FormRegisterTech } from "./style";
+import { UserContext } from "../../contexts/UserContext";
 import { schemaRegisterTech } from "../../validator/schema";
-import { MdOutlineClose } from "react-icons/md";
 
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 Modal.setAppElement(document.getElementById("root")!);
 
 interface IDataSubmitFormRegister {
@@ -42,7 +43,7 @@ const ModalRegisterTech = () => {
       backgroundColor: "#0000007d",
     },
     content: {
-      /* position: "none", */
+      position: "relative",
       inset: "0",
       width: "25rem",
       height: "25rem",
@@ -68,7 +69,10 @@ const ModalRegisterTech = () => {
     >
       <HeaderContainer>
         <p>Cadastrar Tecnologia</p>
-        <button onClick={() => setVisibilityModalRegisterTech(false)}>
+        <button
+          type="button"
+          onClick={() => setVisibilityModalRegisterTech(false)}
+        >
           <MdOutlineClose />
         </button>
       </HeaderContainer>
@@ -83,9 +87,7 @@ const ModalRegisterTech = () => {
           placeholder="Ex: ReactJs"
           {...register("title")}
         />
-        {errors.title && (
-          <p className="MessageError">{errors.title?.message}</p>
-        )}
+        {errors.title && <p className="MessageError">{errors.title.message}</p>}
         <label htmlFor="status">Status</label>
         <select id="status" {...register("status")}>
           <option value="">Selecione um status</option>
@@ -94,9 +96,9 @@ const ModalRegisterTech = () => {
           <option value="Avançado">Avançado</option>
         </select>
         {errors.status && (
-          <p className="MessageError">{errors.status?.message}</p>
+          <p className="MessageError">{errors.status.message}</p>
         )}
-        <button>Cadastrar</button>
+        <button type="submit">Cadastrar</button>
       </FormRegisterTech>
     </Modal>
   );

@@ -1,5 +1,5 @@
 import { Button, DivContainer } from "./style";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 
 type headerContainerProps = { className: string };

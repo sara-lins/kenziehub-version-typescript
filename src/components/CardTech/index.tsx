@@ -1,6 +1,6 @@
 import { Card } from "./style";
 import { FiEdit } from "react-icons/fi";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 
 interface ICardTechProps {

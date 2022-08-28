@@ -1,23 +1,21 @@
+import { motion } from "framer-motion";
+import React, { useContext } from "react";
 import Logo from "../../components/img/Logo.png";
 import Tech from "../../components/img/tech.png";
-import { NavBar, Header, Main } from "./styles.home";
-import { styleBackground as Background } from "./styles.home.js";
-import { motion } from "framer-motion";
-import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import CardTech from "../../components/CardTech/index";
 import ContainerGeral from "../../components/Container/containerGeral";
 import HeaderContainer from "../../components/HeaderTechs/index";
+import {
+  NavBar,
+  Header,
+  Main,
+  styleBackground as Background,
+} from "./styles.home";
 
 const Home = () => {
-  const {
-    module,
-    loading,
-    editName,
-    logout,
-    user,
-    changeArrObjectsTechs,
-  } = useContext(UserContext);
+  const { module, loading, editName, logout, user, changeArrObjectsTechs } =
+    useContext(UserContext);
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -32,23 +30,23 @@ const Home = () => {
       ) : (
         <Background>
           {!user ? (
-            <>
-              <div>
-                <p className="FhraseMain">Ops! Tivemos algum problema!</p>
-              </div>
-            </>
+            <div>
+              <p className="FhraseMain">Ops! Tivemos algum problema!</p>
+            </div>
           ) : (
             <>
               <NavBar>
                 <img src={Logo} alt="Logo" />
-                <button onClick={() => logout()}>Sair</button>
+                <button type="button" onClick={() => logout()}>
+                  Sair
+                </button>
               </NavBar>
               <Header>
                 <p className="TitleName">Olá, {editName()}!</p>
                 <p>{module}</p>
               </Header>
               <Main>
-                {!user?.techs.length ? (
+                {!user.techs.length ? (
                   <>
                     <HeaderContainer className="headerContainer" />
                     <span className="ContainerWithoutTechs">
@@ -65,7 +63,7 @@ const Home = () => {
                   </>
                 ) : (
                   <>
-                    <HeaderContainer className={"headerContainer"} />
+                    <HeaderContainer className="headerContainer" />
                     <ContainerGeral className="Containertechs">
                       <ul>
                         {changeArrObjectsTechs().map((tech) => (

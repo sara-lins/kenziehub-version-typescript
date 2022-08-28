@@ -12,10 +12,7 @@ export const schemaLogin: SchemaOf<IDataSubmitFormLogin> = yup.object().shape({
 
 export const schemaRegister = yup.object().shape({
   name: yup.string().required("Nome é obrigatório"),
-  email: yup
-    .string()
-    .email("Email inválido")
-    .required("Email é obrigatório"),
+  email: yup.string().email("Email inválido").required("Email é obrigatório"),
   password: yup
     .string()
     .required("Senha é obrigatória")
@@ -26,7 +23,7 @@ export const schemaRegister = yup.object().shape({
     ),
   passwordConfirm: yup
     .string()
-    .required("Necessário confirmar senh")
+    .required("Necessário confirmar senha")
     .oneOf([yup.ref("password")], "Confirmação de senha deve ser igual"),
   bio: yup
     .string()

@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { Div as DivContainer } from "./styles.container.js";
+import React, { ReactNode } from "react";
+import { Div as DivContainer } from "./styles.container";
 
 interface IContainerGeralProps {
   children: ReactNode;

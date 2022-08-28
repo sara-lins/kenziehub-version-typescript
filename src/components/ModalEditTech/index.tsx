@@ -1,5 +1,5 @@
 import { HeaderContainer, FormRegisterTech } from "../ModalRegisterTech/style";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import Modal from "react-modal";
 import { useForm } from "react-hook-form";
@@ -45,7 +45,7 @@ const ModalEditTech = () => {
       backgroundColor: "#0000007d",
     },
     content: {
-      /* position: "none", */
+      position: "relative",
       inset: "0",
       width: "25rem",
       height: "30rem",
@@ -71,7 +71,7 @@ const ModalEditTech = () => {
     >
       <HeaderContainer>
         <p>Configurações da Tecnologia</p>
-        <button onClick={() => setVisibilityModalEditTech(false)}>
+        <button type="button" onClick={() => setVisibilityModalEditTech(false)}>
           <MdOutlineClose />
         </button>
       </HeaderContainer>
@@ -98,14 +98,14 @@ const ModalEditTech = () => {
           <option value="Avançado">Avançado</option>
         </select>
         {errors.status && (
-          <p className="MessageError">{errors.status?.message}</p>
+          <p className="MessageError">{errors.status.message}</p>
         )}
         <span>
           <button type="submit" className="ButtonEditTech">
             Editar
           </button>
           <button
-            type={"button"}
+            type="button"
             className="ButtonDeleteTech"
             onClick={showTConfirmDelete}
           >

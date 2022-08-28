@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import Modal from "react-modal";
 import { UserContext } from "../../contexts/UserContext";
 
@@ -25,7 +25,7 @@ const ModalConfirmDelete = () => {
       backgroundColor: "#0000007d",
     },
     content: {
-      /* position: "", */
+      position: "relative",
       inset: "0",
       width: "20rem",
       height: "20rem",

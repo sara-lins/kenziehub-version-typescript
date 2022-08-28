@@ -1,5 +1,5 @@
 import { ContainerBackground } from "./style.background";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 interface IBackgroundProps {
   children: ReactNode;
